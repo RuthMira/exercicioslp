@@ -16,7 +16,7 @@ public class MyFirstJavaProgram {
  
 
  // 3 Utiliza quebra de linhas para imprimir duas linhas de textos usando uma única linha de código
- public class MyFirstJavaProgram {
+
  
     public static void main(String []args) {
        System.out.println("Oie, Ruth!\nTudo bem?"); 
