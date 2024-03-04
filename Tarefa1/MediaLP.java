@@ -23,6 +23,8 @@ public class MediaLP {
         System.out.print("Digite o valor de SUB: ");
         double SUB = scanner.nextDouble();
 
+        scanner.close();
+
         // Calcula a expressão
         double mediaProvas = (P1 * 0.6 + ((E1 + E2) / 2) * 0.4);
         double extra = (API + mediaProvas > 10) ? 0 : Math.max((mediaProvas - 5.9), 0) / (5.9 - mediaProvas);
