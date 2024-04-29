@@ -1,0 +1,5 @@
+![imagem](https://github.com/BispoJPM/ExercicioLP/assets/142633184/1eab1ac6-ba97-4ade-96cb-cfd500e6eef9)
+![imagem](https://github.com/BispoJPM/ExercicioLP/assets/142633184/f066804a-0b4d-4a28-b705-88a18532300b)
+![322242814-b2164550-3ad5-4e4c-b2d8-0af251ab40fc](https://github.com/BispoJPM/ExercicioLP/assets/142633184/1f97a2bf-a096-43cc-ab9b-f95df325dfb1)
+![322178546-656d2b16-022e-48b9-b186-0fa5b975bed0](https://github.com/BispoJPM/ExercicioLP/assets/142633184/2f7a3064-115d-403b-a0ea-3babd595db6e)
+![322178578-dbee9444-4a3e-4980-a645-da8948a27a4e](https://github.com/BispoJPM/ExercicioLP/assets/142633184/fb4e7c91-ee69-4514-9760-c537b9079980)
