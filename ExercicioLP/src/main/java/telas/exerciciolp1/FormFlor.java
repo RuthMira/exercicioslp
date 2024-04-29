@@ -9,6 +9,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class FormFlor extends Application {
 
@@ -16,10 +18,17 @@ public class FormFlor extends Application {
     public void start(@SuppressWarnings("exports") Stage primaryStage) {
         primaryStage.setTitle("Formulário de Flor");
 
+                // Carregando a imagem
+                Image image = new Image(getClass().getResourceAsStream("flor.png"));
+                ImageView imageView = new ImageView(image);
+
         // VBox para organizar os elementos
         VBox vbox = new VBox();
         vbox.setSpacing(10);
         vbox.setPadding(new Insets(20));
+
+                // Adicionando a imagem ao VBox
+                vbox.getChildren().add(imageView);
 
         // Label e TextField para o tipo de flor
         Label tipoLabel = new Label("Tipo de Flor:");
@@ -34,7 +43,7 @@ public class FormFlor extends Application {
         TextField localizacaoText = new TextField();
 
         // Botão para submeter o formulário
-        Button enviarButton = new Button("Enviar");
+        Button enviarButton = new Button("Criar Objeto");
 
         // Adicionando os elementos ao VBox
         vbox.getChildren().addAll(tipoLabel, tipoText, corLabel, corText, localizacaoLabel, localizacaoText, enviarButton);
@@ -60,7 +69,7 @@ public class FormFlor extends Application {
             exibirResultado(flor);
         });
 
-        Scene scene = new Scene(stackPane, 400, 300);
+        Scene scene = new Scene(stackPane, 700, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

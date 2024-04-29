@@ -6,20 +6,32 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
+
+@SuppressWarnings("unused")
 public class FormCachorro extends Application {
 
     @Override
     public void start(@SuppressWarnings("exports") Stage primaryStage) {
         primaryStage.setTitle("Formulário de Cachorro");
 
+        // Carregando a imagem
+        Image image = new Image(getClass().getResourceAsStream("cachorro.png"));
+        ImageView imageView = new ImageView(image);
+
         // VBox para organizar os elementos
         VBox vbox = new VBox();
         vbox.setSpacing(10);
         vbox.setPadding(new Insets(20));
+
+        // Adicionando a imagem ao VBox
+        vbox.getChildren().add(imageView);
 
         // Label e TextField para a raça do cachorro
         Label racaLabel = new Label("Raça:");
@@ -34,7 +46,7 @@ public class FormCachorro extends Application {
         TextField corText = new TextField();
 
         // Botão para submeter o formulário
-        Button enviarButton = new Button("Enviar");
+        Button enviarButton = new Button("Criar Objeto");
 
         // Adicionando os elementos ao VBox
         vbox.getChildren().addAll(racaLabel, racaText, patasLabel, patasText, corLabel, corText, enviarButton);
@@ -60,7 +72,7 @@ public class FormCachorro extends Application {
             exibirResultado(cachorro);
         });
 
-        Scene scene = new Scene(stackPane, 400, 300);
+        Scene scene = new Scene(stackPane, 600, 500);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

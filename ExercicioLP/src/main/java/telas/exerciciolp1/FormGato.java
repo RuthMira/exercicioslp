@@ -9,6 +9,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class FormGato extends Application {
 
@@ -16,10 +18,17 @@ public class FormGato extends Application {
     public void start(@SuppressWarnings("exports") Stage primaryStage) {
         primaryStage.setTitle("Formulário de Gato");
 
+                // Carregando a imagem
+                Image image = new Image(getClass().getResourceAsStream("gato.png"));
+                ImageView imageView = new ImageView(image);
+
         // VBox para organizar os elementos
         VBox vbox = new VBox();
         vbox.setSpacing(10);
         vbox.setPadding(new Insets(20));
+
+                // Adicionando a imagem ao VBox
+                vbox.getChildren().add(imageView);
 
         // Label e TextField para a cor da pelagem do gato
         Label corPelagemLabel = new Label("Cor da Pelagem:");
@@ -34,7 +43,7 @@ public class FormGato extends Application {
         TextField nomeText = new TextField();
 
         // Botão para submeter o formulário
-        Button enviarButton = new Button("Enviar");
+        Button enviarButton = new Button("Criar Objeto");
 
         // Adicionando os elementos ao VBox
         vbox.getChildren().addAll(corPelagemLabel, corPelagemText, padraoPelagemLabel, padraoPelagemText, nomeLabel, nomeText, enviarButton);
@@ -60,7 +69,7 @@ public class FormGato extends Application {
             exibirResultado(gato);
         });
 
-        Scene scene = new Scene(stackPane, 400, 300);
+        Scene scene = new Scene(stackPane, 600, 500);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -80,7 +89,7 @@ public class FormGato extends Application {
 
         vbox.getChildren().addAll(corPelagemLabel, padraoPelagemLabel, nomeLabel);
 
-        Scene scene = new Scene(vbox, 300, 200);
+        Scene scene = new Scene(vbox, 800, 700);
         resultadoStage.setScene(scene);
         resultadoStage.show();
     }
