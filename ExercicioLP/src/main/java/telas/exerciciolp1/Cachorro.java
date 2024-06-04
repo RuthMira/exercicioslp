@@ -1,9 +1,19 @@
 package telas.exerciciolp1;
 
 public class Cachorro {
+    private static int count = 0;
+    private int id;
     private String raca;
     private int numeroPatas;
     private String corDoPelo;
+
+    public Cachorro() {
+        this.id = ++count;
+    }
+
+    public int getId() {
+        return id;
+    }
 
     public String getRaca() {
         return raca;

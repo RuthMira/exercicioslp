@@ -1,9 +1,19 @@
 package telas.exerciciolp1;
 
 public class Flor {
+    private static int count = 0;
+    private int id;
     private String tipo;
     private String cor;
     private String localizacao;
+
+    public Flor() {
+        this.id = ++count;
+    }
+
+    public int getId() {
+        return id;
+    }
 
     public String getTipo() {
         return tipo;
