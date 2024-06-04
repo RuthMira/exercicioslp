@@ -54,4 +54,8 @@ public class Gato {
     public boolean éDoméstico(boolean doméstico) {
         return doméstico;
     }
+
+    public void add(Gato gato) {
+        throw new UnsupportedOperationException("Unimplemented method 'add'");
+    }
 }

@@ -9,6 +9,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+// import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,85 +19,174 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class FormGato extends Application {
+    private ObservableList<Gato> gatos = FXCollections.observableArrayList();
+    private TableView<Gato> tableView = new TableView<>();
+    private TableColumnBase<Gato, Integer> corPelagemText;
+    private TableColumnBase<Gato, Integer> padraoPelagemText;
+    private TableColumnBase<Gato, Integer> nomeText;
 
+    @SuppressWarnings("unchecked")
     @Override
     public void start(@SuppressWarnings("exports") Stage primaryStage) {
         primaryStage.setTitle("Formulário de Gato");
 
-                // Carregando a imagem
-                Image image = new Image(getClass().getResourceAsStream("gato.png"));
-                ImageView imageView = new ImageView(image);
+        // Carregar imagem
+        Image image = new Image(getClass().getResourceAsStream("gato.png"));
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(250);
+        imageView.setFitWidth(250);
+        imageView.setPreserveRatio(true);
 
-        // VBox para organizar os elementos
-        VBox vbox = new VBox();
-        vbox.setSpacing(10);
-        vbox.setPadding(new Insets(20));
+         // VBox principal
+         VBox mainVBox = new VBox();
+         mainVBox.setSpacing(10);
+         mainVBox.setPadding(new Insets(20));
+         mainVBox.setAlignment(Pos.TOP_CENTER);
+ 
+         // Adicionar imagem centralizada
+         StackPane imagePane = new StackPane();
+         imagePane.getChildren().add(imageView);
+         imagePane.setAlignment(Pos.CENTER);
+         mainVBox.getChildren().add(imagePane);
 
-                // Adicionando a imagem ao VBox
-                vbox.getChildren().add(imageView);
+         // Configurar TableView
+        TableColumn<Gato, Integer> idColumn = new TableColumn<>("ID");
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 
-        // Label e TextField para a cor da pelagem do gato
+        TableColumn<Gato, String> corPelagemColumn = new TableColumn<>("Cor");
+        corPelagemColumn.setCellValueFactory(new PropertyValueFactory<>("cor"));
+
+        TableColumn<Gato, String> padraoPelagemColumn = new TableColumn<>("Padrão da Pelagem");
+        padraoPelagemColumn.setCellValueFactory(new PropertyValueFactory<>("padrao"));
+
+        TableColumn<Gato, String> nomeColumn = new TableColumn<>("Nome");
+        nomeColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));
+
+        tableView.setItems(gatos);
+        tableView.getColumns().addAll(idColumn, corPelagemColumn, padraoPelagemColumn, nomeColumn);
+        tableView.setPrefHeight(200);
+
+        // Listener para seleção na TableView
+        tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                corPelagemText.setText(newSelection.getCorPelagem());
+                padraoPelagemText.setText(newSelection.getPadraoPelagem());
+                nomeText.setText(newSelection.getNome());
+            } else {
+                ((List<Gato>) corPelagemText).clear();
+                ((List<Gato>) padraoPelagemText).clear();
+                ((List<Gato>) nomeText).clear();
+            }
+        });
+
+        mainVBox.getChildren().add(tableView);
+
         Label corPelagemLabel = new Label("Cor da Pelagem:");
         TextField corPelagemText = new TextField();
 
-        // Label e TextField para o padrão da pelagem do gato
         Label padraoPelagemLabel = new Label("Padrão da Pelagem:");
         TextField padraoPelagemText = new TextField();
 
-        // Label e TextField para o nome do gato
         Label nomeLabel = new Label("Nome:");
         TextField nomeText = new TextField();
 
-        // Botão para submeter o formulário
-        Button enviarButton = new Button("Criar Objeto");
+        VBox formVBox = new VBox();
+        formVBox.setSpacing(10);
+        formVBox.getChildren().addAll(corPelagemLabel, padraoPelagemLabel, nomeLabel, corPelagemText, padraoPelagemText, nomeText);
 
-        // Adicionando os elementos ao VBox
-        vbox.getChildren().addAll(corPelagemLabel, corPelagemText, padraoPelagemLabel, padraoPelagemText, nomeLabel, nomeText, enviarButton);
+        mainVBox.getChildren().add(formVBox);
 
-        // StackPane para organizar os elementos
-        StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(vbox);
+        // Botões de ação
+        Button criarButton = new Button("Criar");
+        criarButton.setStyle("-fx-background-color: #9582c4; -fx-text-fill: white;");
 
-        // Evento para o botão de submeter
-        enviarButton.setOnAction(event -> {
-            // Obtendo os valores dos campos de texto
+        Button atualizarButton = new Button("Atualizar");
+        atualizarButton.setStyle("-fx-background-color: #9582c4; -fx-text-fill: white;");
+
+        Button deletarButton = new Button("Deletar");
+        deletarButton.setStyle("-fx-background-color: #9582c4; -fx-text-fill: white;");
+
+        HBox buttonBox = new HBox();
+        buttonBox.setSpacing(10);
+        buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.getChildren().addAll(criarButton, atualizarButton, deletarButton);
+
+        mainVBox.getChildren().add(buttonBox);
+
+         // Eventos dos botões
+         criarButton.setOnAction(event -> {
             String corPelagem = corPelagemText.getText();
             String padraoPelagem = padraoPelagemText.getText();
             String nome = nomeText.getText();
 
-            // Criando um objeto Gato com os valores fornecidos
-            Gato gato = new Gato();
-            gato.setCorPelagem(corPelagem);
-            gato.setPadraoPelagem(padraoPelagem);
-            gato.setNome(nome);
+            if (corPelagem.isEmpty() || padraoPelagem.isEmpty() || nome.isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Erro", "Todos os campos devem ser preenchidos");
+                return;
+            }
 
-            // Exibindo os resultados em uma nova janela
-            exibirResultado(gato);
+            try {
+                Gato gato = new Gato();
+                gato.setCorPelagem(corPelagem);
+                gato.setPadraoPelagem(padraoPelagem);
+                gato.setNome(nome);
+                gato.add(gato);
+
+                corPelagemText.clear();
+                padraoPelagemText.clear();
+                nomeText.clear();
+                showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Gato criado com sucesso");
+            } catch (NumberFormatException e) {
+                showAlert(Alert.AlertType.ERROR, "Erro", "Número de patas deve ser um número inteiro");
+            }
         });
 
-        Scene scene = new Scene(stackPane, 600, 500);
+        atualizarButton.setOnAction(event -> {
+            Gato selectedGato = tableView.getSelectionModel().getSelectedItem();
+            if (selectedGato != null) {
+                String corPelagem = corPelagemText.getText();
+                String padraoPelagem = padraoPelagemText.getText();
+                String nome = nomeText.getText();
+
+                if (corPelagem.isEmpty() || padraoPelagem.isEmpty() || nome.isEmpty()) {
+                    showAlert(Alert.AlertType.ERROR, "Erro", "Todos os campos devem ser preenchidos");
+                    return;
+                }
+
+                try {
+                    selectedGato.setCorPelagem(corPelagem);
+                    selectedGato.setPadraoPelagem(padraoPelagem);
+                    selectedGato.setNome(nome);
+                    tableView.refresh();
+                    showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Gato atualizado com sucesso");
+                } catch (NumberFormatException e) {
+                    showAlert(Alert.AlertType.ERROR, "Erro", "Número de patas deve ser um número inteiro");
+                }
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Erro", "Nenhum Gato selecionado para atualização");
+            }
+        });
+
+        deletarButton.setOnAction(event -> {
+            Gato selectedGato = tableView.getSelectionModel().getSelectedItem();
+            if (selectedGato != null) {
+                gatos.remove(selectedGato);
+                showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Gato deletado com sucesso");
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Erro", "Nenhum Gato selecionado para deleção");
+            }
+        });
+
+        
+        Scene scene = new Scene(new StackPane(mainVBox), 600, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    // Método para exibir o resultado em uma nova janela
-    private void exibirResultado(Gato gato) {
-        Stage resultadoStage = new Stage();
-        resultadoStage.setTitle("Resultado do Formulário");
-
-        VBox vbox = new VBox();
-        vbox.setSpacing(10);
-        vbox.setPadding(new Insets(20));
-
-        Label corPelagemLabel = new Label("Cor da Pelagem: " + gato.getCorPelagem());
-        Label padraoPelagemLabel = new Label("Padrão da Pelagem: " + gato.getPadraoPelagem());
-        Label nomeLabel = new Label("Nome: " + gato.getNome());
-
-        vbox.getChildren().addAll(corPelagemLabel, padraoPelagemLabel, nomeLabel);
-
-        Scene scene = new Scene(vbox, 800, 700);
-        resultadoStage.setScene(scene);
-        resultadoStage.show();
+    private void showAlert(Alert.AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     public static void main(String[] args) {
