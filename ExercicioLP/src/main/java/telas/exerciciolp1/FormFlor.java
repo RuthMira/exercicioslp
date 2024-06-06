@@ -1,198 +1,87 @@
 package telas.exerciciolp1;
-
-import java.util.List;
-
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-// import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class FormFlor extends Application {
-    private ObservableList<Flor> flores = FXCollections.observableArrayList();
-    private TableView<Flor> tableView = new TableView<>();
-    private TableColumnBase<Flor, Integer> tipoText;
-    private TableColumnBase<Flor, Integer> corText;
-    private TableColumnBase<Flor, Integer> localizacaoText;
 
-    @SuppressWarnings("unchecked")
     @Override
     public void start(@SuppressWarnings("exports") Stage primaryStage) {
         primaryStage.setTitle("Formulário de Flor");
 
-        // Carregar imagem
+        // Carregando a imagem
         Image image = new Image(getClass().getResourceAsStream("flor.png"));
         ImageView imageView = new ImageView(image);
-        imageView.setFitHeight(250);
-        imageView.setFitWidth(250);
-        imageView.setPreserveRatio(true);
 
-         // VBox principal
-        VBox mainVBox = new VBox();
-        mainVBox.setSpacing(10);
-        mainVBox.setPadding(new Insets(20));
-        mainVBox.setAlignment(Pos.TOP_CENTER);
+        // VBox para organizar os elementos
+        VBox vbox = new VBox();
+        vbox.setSpacing(10);
+        vbox.setPadding(new Insets(20));
 
-        // Adicionar imagem centralizada
-        StackPane imagePane = new StackPane();
-        imagePane.getChildren().add(imageView);
-        imagePane.setAlignment(Pos.CENTER);
-        mainVBox.getChildren().add(imagePane);
+        // Adicionando a imagem ao VBox
+        vbox.getChildren().add(imageView);
 
-        TableColumn<Flor, Integer> idColumn = new TableColumn<>("ID");
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-
-        TableColumn<Flor, String> tipoColumn = new TableColumn<>("Tipo");
-        tipoColumn.setCellValueFactory(new PropertyValueFactory<>("tipo"));
-
-        TableColumn<Flor, String> corColumn = new TableColumn<>("Cor");
-        corColumn.setCellValueFactory(new PropertyValueFactory<>("cor"));
-
-        TableColumn<Flor, String> localizacaoColumn = new TableColumn<>("Localização");
-        localizacaoColumn.setCellValueFactory(new PropertyValueFactory<>("localização"));
-
-        tableView.setItems(flores);
-        tableView.getColumns().addAll(idColumn, tipoColumn,localizacaoColumn, corColumn);
-        tableView.setPrefHeight(200);
-
-        // Listar para seleção na tableView
-        tableView.getSelectionModel().selectedItemProperty().addListener((obs,oldselection, newSelecition) -> {
-            if (newSelecition != null) {
-                tipoText.setText(newSelecition.getTipo());
-                corText.setText(newSelecition.getCor());
-                localizacaoText.setText(newSelecition.getLocalizacao());
-            } else {
-                ((List<Flor>)tipoText).clear();
-                ((List<Flor>)corText).clear();
-                ((List<Flor>)localizacaoText).clear();
-            }
-        });
-
-        mainVBox.getChildren().add(tableView);
-
-        //Campos de Entrada
+        // Label e TextField para o tipo de flor
         Label tipoLabel = new Label("Tipo de Flor:");
         TextField tipoText = new TextField();
-
         // Label e TextField para a cor da flor
         Label corLabel = new Label("Cor da Flor:");
         TextField corText = new TextField();
-
         // Label e TextField para a localização da flor
         Label localizacaoLabel = new Label("Localização:");
         TextField localizacaoText = new TextField();
 
-        VBox formVBox = new VBox();
-        formVBox.setSpacing(10);
-        formVBox.getChildren().addAll(tipoLabel, tipoText, localizacaoLabel, localizacaoText, corLabel, corText);
+        // Botão para submeter o formulário
+        Button enviarButton = new Button("Criar Objeto");
 
-        mainVBox.getChildren().add(formVBox);
-
-        // Botões de ação
-        Button criarButton = new Button("Criar");
-        criarButton.setStyle("-fx-background-color: #9582c4; -fx-text-fill: white;");
-
-        Button atualizarButton = new Button("Atualizar");
-        atualizarButton.setStyle("-fx-background-color: #9582c4; -fx-text-fill: white;");
-
-        Button deletarButton = new Button("Deletar");
-        deletarButton.setStyle("-fx-background-color: #9582c4; -fx-text-fill: white;");
-
-        HBox buttonBox = new HBox();
-        buttonBox.setSpacing(10);
-        buttonBox.setAlignment(Pos.CENTER);
-        buttonBox.getChildren().addAll(criarButton, atualizarButton, deletarButton);
-
-        mainVBox.getChildren().add(buttonBox);
-
-        // Eventos dos botões
-        criarButton.setOnAction(event -> {
+        // Adicionando os elementos ao VBox
+        vbox.getChildren().addAll(tipoLabel, tipoText, corLabel, corText, localizacaoLabel, localizacaoText, enviarButton);
+        // StackPane para organizar os elementos
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().addAll(vbox);
+        // Evento para o botão de submeter
+        enviarButton.setOnAction(event -> {
+            // Obtendo os valores dos campos de texto
             String tipo = tipoText.getText();
             String cor = corText.getText();
             String localizacao = localizacaoText.getText();
-
-            if (tipo.isEmpty() || cor.isEmpty() || localizacao.isEmpty()) {
-                showAlert(Alert.AlertType.ERROR, "Erro", "Todos os campos devem ser preenchidos");
-                return;
-            }
-
-            try {
-                Flor flor = new Flor();
-                flor.setTipo(tipo);
-                flor.setCor(cor);
-                flor.setLocalizacao(localizacao);
-                flores.add(flor);
-
-                tipoText.clear();
-                corText.clear();
-                localizacaoText.clear();
-                showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Flor criado com sucesso");
-            } catch (NumberFormatException e) {
-                showAlert(Alert.AlertType.ERROR, "Erro", "Número de patas deve ser um número inteiro");
-            }
+            // Criando um objeto Flor com os valores fornecidos
+            Flor flor = new Flor();
+            flor.setTipo(tipo);
+            flor.setCor(cor);
+            flor.setLocalizacao(localizacao);
+            // Exibindo os resultados em uma nova janela
+            exibirResultado(flor);
         });
 
-        atualizarButton.setOnAction(event -> {
-            Flor selectedCachorro = tableView.getSelectionModel().getSelectedItem();
-            if (selectedCachorro != null) {
-                String raca = tipoText.getText();
-                String patas = localizacaoText.getText();
-                String cor = corText.getText();
-
-                if (raca.isEmpty() || patas.isEmpty() || cor.isEmpty()) {
-                    showAlert(Alert.AlertType.ERROR, "Erro", "Todos os campos devem ser preenchidos");
-                    return;
-                }
-
-                try {
-                    selectedCachorro.setTipo(cor);
-                    selectedCachorro.setLocalizacao(raca);
-                    selectedCachorro.setCor(cor);
-                    tableView.refresh();
-                    showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Flor atualizado com sucesso");
-                } catch (NumberFormatException e) {
-                    showAlert(Alert.AlertType.ERROR, "Erro", "Número de patas deve ser um número inteiro");
-                }
-            } else {
-                showAlert(Alert.AlertType.ERROR, "Erro", "Nenhuma Flor selecionado para atualização");
-            }
-        });
-
-        deletarButton.setOnAction(event -> {
-            Flor selectedFlor = tableView.getSelectionModel().getSelectedItem();
-            if (selectedFlor != null) {
-                flores.remove(selectedFlor);
-                showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Flor deletada com sucesso");
-            } else {
-                showAlert(Alert.AlertType.ERROR, "Erro", "Nenhuma Flor selecionada para deleção");
-            }
-        });
-
-        Scene scene = new Scene(new StackPane(mainVBox), 600, 600);
+        Scene scene = new Scene(stackPane, 400, 300);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
-    private void showAlert(Alert.AlertType alertType, String title, String content) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setContentText(content);
-        alert.showAndWait();
+    // Método para exibir o resultado em uma nova janela
+    private void exibirResultado(Flor flor) {
+        Stage resultadoStage = new Stage();
+        resultadoStage.setTitle("Resultado do Formulário");
+        VBox vbox = new VBox();
+        vbox.setSpacing(10);
+        vbox.setPadding(new Insets(20));
+        Label tipoLabel = new Label("Tipo de Flor: " + flor.getTipo());
+        Label corLabel = new Label("Cor da Flor: " + flor.getCor());
+        Label localizacaoLabel = new Label("Localização: " + flor.getLocalizacao());
+        vbox.getChildren().addAll(tipoLabel, corLabel, localizacaoLabel);
+        Scene scene = new Scene(vbox, 300, 200);
+        resultadoStage.setScene(scene);
+        resultadoStage.show();
     }
-
     public static void main(String[] args) {
         launch(args);
     }
 }
-
-
