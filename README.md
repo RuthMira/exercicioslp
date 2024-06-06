@@ -1,5 +1,5 @@
 # ExercicioLP
-###Repositório criado a fim de organizar e entregar as tarefas da disciplina de Linguagem de Progração e Lab II do curo de Banco de dados.
+### Repositório criado a fim de organizar e entregar as tarefas da disciplina de Linguagem de Progração e Lab II do curo de Banco de dados.
 
 Este projeto implementa várias soluções:
 
