@@ -18,7 +18,7 @@ public class FormFlor extends Application {
         primaryStage.setTitle("Formulário de Flor");
 
         // Carregando a imagem
-        Image image = new Image(getClass().getResourceAsStream("flor.png"));
+        Image image = new Image(getClass().getResourceAsStream("img/flor.png"));
         ImageView imageView = new ImageView(image);
 
         // VBox para organizar os elementos

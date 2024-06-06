@@ -21,7 +21,7 @@ public class FormCachorro extends Application {
         primaryStage.setTitle("Formulário de Cachorro");
 
         // Carregando a imagem
-        Image image = new Image(getClass().getResourceAsStream("cachorro.png"));
+        Image image = new Image(getClass().getResourceAsStream("img/cachorro.png"));
         ImageView imageView = new ImageView(image);
 
         // VBox para organizar os elementos

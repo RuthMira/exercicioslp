@@ -19,7 +19,7 @@ public class FormGato extends Application {
         primaryStage.setTitle("Formulário de Gato");
 
         // Carregando a imagem
-        Image image = new Image(getClass().getResourceAsStream("gato.png"));
+        Image image = new Image(getClass().getResourceAsStream("img/gato.png"));
         ImageView imageView = new ImageView(image);
 
         // VBox para organizar os elementos
