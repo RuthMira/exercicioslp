@@ -1,0 +1,15 @@
+CREATE DATABASE IF NOT EXISTS lp1;
+
+USE lp1;
+
+CREATE TABLE IF NOT EXISTS cachorros (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    raca VARCHAR(100),
+    numero_patas INT,
+    cor_pelo VARCHAR(100)
+);
+
+CREATE USER 'root'@'localhost' IDENTIFIED BY 'root';
+GRANT ALL PRIVILEGES ON LP1.* TO 'root'@'localhost';
+FLUSH PRIVILEGES;
+
